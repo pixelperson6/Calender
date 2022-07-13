@@ -3,7 +3,6 @@ package com.sample.calender.feature_reminder.presentation
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.graphics.toArgb
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sample.calender.feature_reminder.domain.model.InvalidReminderException

@@ -19,10 +19,10 @@ val Dark_night = Color(0xFF222831)
 
 val Gray_neutral = Color(0xFFEEEEEE)
 
-val dark_blue = Color(0xFF06283D)
-val blue = Color(0xFF1363DF)
-val light_blue = Color(0xFF47B5FF)
-val white = Color(0xFFDFF6FF)
+val dark_brown = Color(0xFFC36A2D)
+val brown = Color(0xFFE2C275)
+val light_brown = Color(0xFFEADCA6)
+val white = Color(0xFFFBFBFB)
 
 val RedOrange = Color(0xffffab91)
 val RedPink = Color(0xfff48fb1)
