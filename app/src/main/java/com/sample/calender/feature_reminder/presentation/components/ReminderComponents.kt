@@ -50,19 +50,19 @@ fun ReminderEditMode(
         )
     }
 
-    LaunchedEffect(key1 = true ){
-        viewModel.eventFlow.collectLatest { event->
-            when(event){
-                is MainViewModel.UiEvent.ShowSnackBar ->{
+    LaunchedEffect(key1 = true) {
+        viewModel.eventFlow.collectLatest { event ->
+            when (event) {
+                is MainViewModel.UiEvent.ShowSnackBar -> {
                     SnackbarHostState().showSnackbar(
                         message = event.message
                     )
                 }
-                is MainViewModel.UiEvent.SaveReminder ->{
+                is MainViewModel.UiEvent.SaveReminder -> {
                     viewModel.changeEditMode(false)
                     viewModel.getReminders(viewModel.state.value.reminderOrder)
                 }
-                is MainViewModel.UiEvent.CancelReminder ->{
+                is MainViewModel.UiEvent.CancelReminder -> {
                     viewModel.changeEditMode(false)
                     viewModel.getReminders(viewModel.state.value.reminderOrder)
                 }
@@ -79,18 +79,19 @@ fun ReminderEditMode(
             .padding(8.dp)
     ) {
 
-        Column(modifier = Modifier
-            .fillMaxWidth(0.8f)
-            .fillMaxHeight(),
+        Column(
+            modifier = Modifier
+                .fillMaxWidth(0.8f)
+                .fillMaxHeight(),
             verticalArrangement = Arrangement.SpaceBetween
         ) {
             TransparentHintTextField(
                 text = reminderTextState.text,
-                hint =reminderTextState.hint,
-                onValueChange ={
+                hint = reminderTextState.hint,
+                onValueChange = {
                     viewModel.onEditEvent(AddReminderEvent.EnteredReminder(it))
                 },
-                onFocusChange ={
+                onFocusChange = {
                     viewModel.onEditEvent(AddReminderEvent.ChangeReminderFocus(it))
                 },
                 isHintVisible = reminderTextState.isHintVisible,
@@ -151,12 +152,13 @@ fun ReminderEditMode(
                     .clip(RoundedCornerShape(15.dp))
                     .background(MaterialTheme.colors.background),
                 onClick = {
-                viewModel.onEditEvent(AddReminderEvent.SaveReminder)
-            }) {
-                Icon( modifier = Modifier
-                    .size(45.dp),
+                    viewModel.onEditEvent(AddReminderEvent.SaveReminder)
+                }) {
+                Icon(
+                    modifier = Modifier
+                        .size(45.dp),
                     imageVector = Icons.Default.Done,
-                    contentDescription ="Done",
+                    contentDescription = "Done",
                     tint = MaterialTheme.colors.primary
                 )
 
@@ -170,12 +172,13 @@ fun ReminderEditMode(
                     .background(MaterialTheme.colors.background),
 
                 onClick = {
-                viewModel.onEditEvent(AddReminderEvent.CancelReminder)
-            }) {
-                Icon( modifier = Modifier
-                    .size(45.dp),
+                    viewModel.onEditEvent(AddReminderEvent.CancelReminder)
+                }) {
+                Icon(
+                    modifier = Modifier
+                        .size(45.dp),
                     imageVector = Icons.Default.Cancel,
-                    contentDescription ="Cancel",
+                    contentDescription = "Cancel",
                     tint = MaterialTheme.colors.primary
                 )
 
@@ -210,7 +213,11 @@ fun ReminderNormalMode(
         ) {
 
             if (state.reminders.isEmpty()) {
-                Text(text = "No reminder today...", textAlign = TextAlign.Center, style = MaterialTheme.typography.body1)
+                Text(
+                    text = "No reminder today...",
+                    textAlign = TextAlign.Center,
+                    style = MaterialTheme.typography.body1
+                )
             } else {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
@@ -221,7 +228,7 @@ fun ReminderNormalMode(
                         text = "Your Reminders",
                         style = MaterialTheme.typography.body1
                     )
-                    IconButton(
+                /*    IconButton(
                         onClick = {
                             viewModel.onReminderEvent(ReminderEvent.ToggleOrderSection)
                         },
@@ -231,9 +238,9 @@ fun ReminderNormalMode(
                             contentDescription = "Sort",
                             tint = MaterialTheme.colors.primary
                         )
-                    }
+                    }*/
                 }
-                AnimatedVisibility(
+             /*   AnimatedVisibility(
                     visible = state.isOrderSectionVisible,
                     enter = fadeIn() + slideInVertically(),
                     exit = fadeOut() + slideOutVertically()
@@ -246,7 +253,7 @@ fun ReminderNormalMode(
                             viewModel.onReminderEvent(ReminderEvent.Order(it))
                         })
 
-                }
+                }*/
                 Spacer(modifier = Modifier.height(16.dp))
                 LazyColumn(
                 ) {
@@ -280,29 +287,30 @@ fun ReminderNormalMode(
         }
         Spacer(modifier = Modifier.width(16.dp))
 
-        Column( modifier = Modifier
-            .fillMaxHeight(),
+        Column(
+            modifier = Modifier
+                .fillMaxHeight(),
             verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally) {
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
 
             IconButton(
                 modifier = Modifier
                     .fillMaxWidth()
                     .fillMaxHeight(0.5f)
                     .clip(RoundedCornerShape(15.dp))
-                    .background(MaterialTheme.colors.background)
-                ,
+                    .background(MaterialTheme.colors.background),
                 onClick = {
-                viewModel.changeEditMode(true)
-                viewModel.resetTextField()
-                viewModel.changeCurrentId(-1)
+                    viewModel.changeCurrentId(-1)
+                    viewModel.changeEditMode(true)
+                    viewModel.resetTextField()
                     viewModel.addEditReminder()
-            }) {
+                }) {
 
                 Icon(
                     modifier = modifier.size(50.dp),
                     imageVector = Icons.Default.Add,
-                    contentDescription ="Add",
+                    contentDescription = "Add",
                     tint = MaterialTheme.colors.primary
 
                 )
@@ -312,7 +320,6 @@ fun ReminderNormalMode(
 
 
     }
-
 
 
 }

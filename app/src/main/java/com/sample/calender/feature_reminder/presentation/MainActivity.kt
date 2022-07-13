@@ -2,7 +2,6 @@ package com.sample.calender.feature_reminder.presentation
 
 import android.os.Build
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.annotation.RequiresApi
@@ -11,8 +10,7 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
-import androidx.compose.material.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.himanshoe.kalendar.common.KalendarSelector
@@ -36,13 +34,42 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             mainViewModel = hiltViewModel()
+
+            LaunchedEffect(key1 = true) {
+                mainViewModel.changeCurrentDate(LocalDate.now().toString())
+                mainViewModel.getReminders(mainViewModel.state.value.reminderOrder)
+            }
             CalenderTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.surface
                 ) {
-                    MainScreen()
+                    Column(Modifier.fillMaxSize()) {
+                        Kalendar(
+                            kalendarType = KalendarType.Firey(),
+                            kalendarStyle = KalendarStyle(
+                                kalendarSelector = KalendarSelector.Circle()
+                            ),
+
+                            onCurrentDayClick = { day, _ ->
+                                mainViewModel.changeCurrentDate(day.toString())
+                                mainViewModel.changeEditMode(false)
+                                mainViewModel.getReminders(mainViewModel.state.value.reminderOrder)
+                            }, errorMessage = {
+                                //Handle the error if any
+                            })
+
+                        if (mainViewModel.isEditMode.value) {
+                            ReminderEditMode(
+                                modifier = Modifier
+                                    .fillMaxHeight(),
+                                reminderColor = mainViewModel.reminderColor.value
+                            )
+                        } else {
+                            ReminderNormalMode()
+                        }
+                    }
                 }
             }
         }
